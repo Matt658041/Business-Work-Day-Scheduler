@@ -1,43 +1,37 @@
-// Moment script
+// Moment Script
 var m = moment();
 
-// 
+// Day and date and time
+$("#currentDay").text(moment().format(`LLLL`));
 
-// Day, date, time
-$("#currentDay").text(moment().format('LLLL'));
-
-
-$(document).ready( function() {
-    colorChange ();
-    renderText();
+$(document).ready(function() {
+    colorChange();
+    renderText(); 
 });
-
-function colorChange () {
-    
+function colorChange() {
     var currentTime = moment().hours();
     console.log("Current Time" + currentTime);
-       
-// How the blocks know if they are past, present or future
-    $(".input").each(function () {
-        var scheduledTime = parseInt($(this).attr("id"));
-        console.log(scheduledTime);
+// Blocks being past, present, and future
+$(".input").each(function () {
+    var scheduledTime = parseInt($(this).attr("id"));
+    console.log(scheduledTime);
+    if (currentTime > scheduledTime) {
+        $(this).removeClass("future");
+        $(this).removeClass("present");
+        $(this).addClass("past");
+    } else if (currentTime < scheduledTime) {
+        $(this).removeClass("present");
+        $(this).removeClass("past");
+        $(this).addClass("future");
+    } else {
+        $(this).removeClass("future");
+        $(this).removeClass("past");
+        $(this).addClass("present");
+    }
+});
 
-        if (currentTime > scheduledTime) {
-            $(this).removeClass("future");
-            $(this).removeClass("present");
-            $(this).addClass("past");
-        } else if (currentTime < scheduledTime) {
-            $(this).removeClass("present");
-            $(this).removeClass("past");
-            $(this).addClass("future");
-        } else {
-            $(this).removeClass("future");
-            $(this).removeClass("past");
-            $(this).addClass("present");
-        }
-    });
 }
-// Button functionality, variables for on save button click, .val() is where the text goes
+// Created button functionality
 var eventText;
 var eventTime;
 
@@ -46,26 +40,23 @@ $(".saveBtn").click(function() {
     console.log(eventText);
     eventTime = $(this).siblings(".hour").text();
     console.log(eventTime);
+    localStorage.setItem(eventTime,JSON.stringify(eventText));
+
+    colorChange();
+    renderText();
+});
+$(".deleteBtn").click(function() {
+    eventText = $(this).siblings(".input").val("");
+    eventText = $(this).siblings(".input").val();
+    eventTime = $(this).siblings(".hour").text();
     localStorage.setItem(eventTime, JSON.stringify(eventText));
 
-    colorChange ();
-    renderText ();
-    
-});
-
-  $(".deleteBtn").click(function() {
-        eventText = $(this).siblings(".input").val("");
-        eventText = $(this).siblings(".input").val();
-        eventTime = $(this).siblings(".hour").text();
-        localStorage.setItem(eventTime, JSON.stringify(eventText));
-  
-    colorChange ();
-    renderText ();
+colorChange ();
+renderText ();
 
 });
-
-    // Enter and Display Events
-function renderText () {   
+   // Enter and Display Events
+   function renderText () {   
     var saveEventText8 = JSON.parse(localStorage.getItem("8:00 am"));
     $("#8").val("");
     $("#8").val(saveEventText8);
@@ -117,5 +108,4 @@ function renderText () {
     var saveEventText8P = JSON.parse(localStorage.getItem("8:00 pm"));
     $("#20").val("");
     $("#20").val(saveEventText8P);
-
-};
+   };
