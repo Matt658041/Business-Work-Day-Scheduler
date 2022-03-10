@@ -4,7 +4,7 @@
 
  ## Built with HTML, CSS, JQUERY, BOOTSTRAP
 
- ![alt text]()
+ ![alt text](images/work-day-screenshot.png)
 
  ## Website
  https://matt658041.github.io/Business-Work-Day-Scheduler/
